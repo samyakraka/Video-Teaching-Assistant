@@ -60,10 +60,9 @@ https://github.com/user-attachments/assets/e5dd084b-c4cb-410e-8bb5-f89c24fa6e28
 Installation Steps
 1. Clone this repository:
    ```bash
-   [git clone https://github.com/samyakraka/Video-Teaching-Assistant
-](https://github.com/samyakraka/Video-Teaching-Assistant
-.git)
+   git clone https://github.com/samyakraka/Video-Teaching-Assistant
    ```
+   
 2. Navigate to the project directory:
    ```bash
    cd Video-Teaching-Assistant
