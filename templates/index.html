@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Teaching Assistant</title>
+    <style>
+      :root {
+        --primary-color: #40e0d0;
+        --secondary-color: #4a90e2;
+        --text-color: #1a2b3c;
+        --background-color: #f0f7ff;
+        --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+      }
+
+      .container {
+        background: white;
+        border-radius: 24px;
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 800px;
+        box-shadow: var(--card-shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .container::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(64, 224, 208, 0.1),
+          transparent
+        );
+        z-index: 0;
+      }
+
+      .content {
+        position: relative;
+        z-index: 1;
+      }
+
+      h1 {
+        color: var(--text-color);
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        font-weight: 800;
+      }
+
+      .video-container {
+        background: #000;
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        position: relative;
+        aspect-ratio: 16/9;
+      }
+
+      #videoStream {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .controls {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 2rem;
+      }
+
+      .button {
+        background: var(--text-color);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .button.recording {
+        background: #ff4444;
+        animation: pulse 1.5s infinite;
+      }
+
+      .response-section {
+        background: var(--background-color);
+        padding: 2rem;
+        border-radius: 16px;
+      }
+
+      .response-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .response-title {
+        font-size: 1.5rem;
+        color: var(--text-color);
+        font-weight: 700;
+      }
+
+      .translation-controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      select {
+        padding: 0.75rem;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 1rem;
+        background: white;
+      }
+
+      #response,
+      #transcribedText {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        min-height: 100px;
+        margin-bottom: 1rem;
+        white-space: pre-wrap;
+        line-height: 1.6;
+        color: var(--text-color);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 1rem;
+        color: var(--text-color);
+        font-weight: 500;
+      }
+
+      .loading::after {
+        content: "Loading...";
+        animation: dots 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes dots {
+        0%,
+        20% {
+          content: "Loading.";
+        }
+        40% {
+          content: "Loading..";
+        }
+        60%,
+        100% {
+          content: "Loading...";
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 1rem;
+        }
+
+        .container {
+          padding: 1.5rem;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .controls {
+          flex-direction: column;
+        }
+
+        .button {
+          width: 100%;
+        }
+
+        .response-header {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .translation-controls {
+          width: 100%;
+        }
+
+        select {
+          flex-grow: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <h1>Video Teaching Assistant</h1>
+
+        <div class="video-container">
+          <img
+            id="videoStream"
+            src="{{ url_for('video_feed') }}"
+            alt="Video Stream"
+          />
+        </div>
+
+        <div class="controls">
+          <button class="button" id="captureBtn">Capture Image</button>
+          <button class="button" id="recordBtn">Start Recording</button>
+        </div>
+
+        <div class="response-section">
+          <div class="response-header">
+            <h2 class="response-title">Response</h2>
+            <div class="translation-controls">
+              <select id="languageSelect">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="hi">Hindi</option>
+                <option value="ja">Japanese</option>
+                <option value="ko">Korean</option>
+                <option value="zh">Chinese</option>
+              </select>
+              <button class="button" id="translateBtn">Translate</button>
+            </div>
+          </div>
+
+          <div id="transcribedText"></div>
+          <div id="response">{{ response }}</div>
+          <div class="loading" id="loading"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let isRecording = false;
+      const recordBtn = document.getElementById("recordBtn");
+      const captureBtn = document.getElementById("captureBtn");
+      const response = document.getElementById("response");
+      const transcribedText = document.getElementById("transcribedText");
+      const loading = document.getElementById("loading");
+      const translateBtn = document.getElementById("translateBtn");
+      const languageSelect = document.getElementById("languageSelect");
+
+      captureBtn.addEventListener("click", async () => {
+        loading.style.display = "block";
+        try {
+          const res = await fetch("/capture_image", { method: "POST" });
+          const data = await res.json();
+          response.textContent = data.response;
+        } catch (error) {
+          console.error("Error:", error);
+          response.textContent = "Error processing image";
+        }
+        loading.style.display = "none";
+      });
+
+      recordBtn.addEventListener("click", async () => {
+        if (!isRecording) {
+          isRecording = true;
+          recordBtn.textContent = "Stop Recording";
+          recordBtn.classList.add("recording");
+          await fetch("/start_audio_recording", { method: "POST" });
+        } else {
+          isRecording = false;
+          recordBtn.textContent = "Start Recording";
+          recordBtn.classList.remove("recording");
+          loading.style.display = "block";
+
+          try {
+            const res = await fetch("/stop_audio_recording", {
+              method: "POST",
+            });
+            const data = await res.json();
+            response.textContent = data.response;
+            transcribedText.textContent = data.transcribed_text;
+          } catch (error) {
+            console.error("Error:", error);
+            response.textContent = "Error processing audio";
+          }
+          loading.style.display = "none";
+        }
+      });
+
+      translateBtn.addEventListener("click", async () => {
+        const text = response.textContent;
+        const targetLanguage = languageSelect.value;
+        loading.style.display = "block";
+
+        try {
+          const res = await fetch("/translate", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              text: text,
+              language: targetLanguage,
+            }),
+          });
+
+          const data = await res.json();
+          if (data.error) {
+            throw new Error(data.error);
+          }
+
+          response.textContent = data.translated_text;
+
+          if (data.audio_url) {
+            const audio = new Audio(data.audio_url);
+            audio.play();
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          response.textContent = "Error during translation";
+        }
+        loading.style.display = "none";
+      });
+    </script>
+  </body>
+</html>

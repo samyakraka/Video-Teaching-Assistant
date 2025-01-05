@@ -1,0 +1,26 @@
+2025-01-05 18:50:14,465 - __main__ - INFO - VideoTeachingAssistant initialized successfully
+2025-01-05 18:50:14,484 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2908
+ * Running on http://192.168.1.4:2908
+2025-01-05 18:50:14,489 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-01-05 18:51:21,608 - __main__ - INFO - Resources cleaned up
+2025-01-05 18:51:31,121 - __main__ - INFO - VideoTeachingAssistant initialized successfully
+2025-01-05 18:51:31,143 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://192.168.1.4:3000
+2025-01-05 18:51:31,150 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-01-05 18:51:45,023 - werkzeug - INFO - 127.0.0.1 - - [05/Jan/2025 18:51:45] "GET / HTTP/1.1" 200 -
+2025-01-05 18:51:55,087 - __main__ - ERROR - Failed to capture video frame
+2025-01-05 18:51:55,089 - werkzeug - INFO - 127.0.0.1 - - [05/Jan/2025 18:51:55] "GET /video_feed HTTP/1.1" 200 -
+2025-01-05 18:51:55,167 - werkzeug - INFO - 127.0.0.1 - - [05/Jan/2025 18:51:55] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-01-05 18:51:59,157 - __main__ - ERROR - Error in image capture: OpenCV(4.10.0) D:\a\opencv-python\opencv-python\opencv\modules\imgcodecs\src\loadsave.cpp:798: error: (-215:Assertion failed) !_img.empty() in function 'cv::imwrite'
+
+2025-01-05 18:51:59,158 - __main__ - ERROR - Error processing image: OpenCV(4.10.0) D:\a\opencv-python\opencv-python\opencv\modules\imgcodecs\src\loadsave.cpp:798: error: (-215:Assertion failed) !_img.empty() in function 'cv::imwrite'
+
+2025-01-05 18:51:59,160 - werkzeug - INFO - 127.0.0.1 - - [05/Jan/2025 18:51:59] "[35m[1mPOST /capture_image HTTP/1.1[0m" 500 -
+2025-01-05 18:52:09,366 - __main__ - INFO - Audio recording started
+2025-01-05 18:52:09,367 - werkzeug - INFO - 127.0.0.1 - - [05/Jan/2025 18:52:09] "POST /start_audio_recording HTTP/1.1" 200 -
+2025-01-05 18:52:13,725 - __main__ - WARNING - Could not understand audio
+2025-01-05 18:52:13,727 - werkzeug - INFO - 127.0.0.1 - - [05/Jan/2025 18:52:13] "POST /stop_audio_recording HTTP/1.1" 200 -
