@@ -1,6 +1,5 @@
 Here's a `README.md` file for your project:
 
-markdown
 # Video Teaching Assistant
 
 The **Video Teaching Assistant** is a Flask-based web application that provides an interactive interface for video streaming, image capture, audio recording, and language translation. It uses AI-based tools for transcription, translation, and response generation, making it a valuable tool for teaching and learning.
