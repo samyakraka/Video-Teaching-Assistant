@@ -47,6 +47,10 @@ Ensure the following are installed:
 - Flask
 - OpenCV (`cv2`)
 - speech_recognition
+
+https://github.com/user-attachments/assets/e5dd084b-c4cb-410e-8bb5-f89c24fa6e28
+
+
 - pyaudio
 - gtts
 - google-generativeai
@@ -156,3 +160,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 ---
 
+![WhatsApp Image 2025-01-05 at 8 33 10 PM](https://github.com/user-attachments/assets/56bfc5c1-92e9-488b-95ae-af48b9513eb0)
